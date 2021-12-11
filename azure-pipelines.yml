@@ -22,8 +22,7 @@ variables:
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
 
-  # Python version: 3.7
-  pythonVersion: '3.7'
+  pythonVersion: '3.9'
 
 stages:
 - stage: Build
@@ -80,6 +79,16 @@ stages:
             inputs:
               versionSpec: '$(pythonVersion)'
             displayName: 'Use Python version'
+          
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              buildType: 'specific'
+              project: '76d199df-c2db-4143-a22e-d1d7a5c13c23'
+              definition: '14'
+              specificBuildWithTriggering: true
+              buildVersionToDownload: 'latest'
+              artifactName: 'drop'
+              targetPath: '$(System.DefaultWorkingDirectory)'
 
           - task: AzureWebApp@1
             inputs:
@@ -89,6 +98,6 @@ stages:
               deployToSlotOrASE: true
               resourceGroupName: 'devops-training-flask'
               slotName: 'production'
-              package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-              runtimeStack: 'PYTHON|3.7'
+              package: '**/*.zip'
+              runtimeStack: 'PYTHON|3.9'
               startUpCommand: 'python src/main.py'
