@@ -92,6 +92,3 @@ stages:
               package: '$(System.DefaultWorkingDirectory)/**/*.zip'
               runtimeStack: 'PYTHON|3.7'
               startUpCommand: 'python src/main.py'
-              azureSubscription: $(azureServiceConnectionId)
-              appName: $(webAppName)
-              package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
