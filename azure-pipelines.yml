@@ -11,7 +11,7 @@ variables:
   azureServiceConnectionId: '4fe64adc-9686-410f-a751-3b8d522e59a3'
 
   # Web app name
-  webAppName: 'flask-app'
+  webAppName: 'slicknet-devops-training'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -82,8 +82,16 @@ stages:
             displayName: 'Use Python version'
 
           - task: AzureWebApp@1
-            displayName: 'Deploy Azure Web App : '
             inputs:
+              azureSubscription: 'Azure subscription 1 (665f670b-c38f-4551-9fee-2be53411de7b)'
+              appType: 'webAppLinux'
+              appName: 'slicknet-devops-training'
+              deployToSlotOrASE: true
+              resourceGroupName: 'devops-training-flask'
+              slotName: 'production'
+              package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+              runtimeStack: 'PYTHON|3.7'
+              startUpCommand: 'python src/main.py'
               azureSubscription: $(azureServiceConnectionId)
               appName: $(webAppName)
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
