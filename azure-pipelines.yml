@@ -82,13 +82,10 @@ stages:
           
           - task: DownloadPipelineArtifact@2
             inputs:
-              buildType: 'specific'
-              project: '76d199df-c2db-4143-a22e-d1d7a5c13c23'
-              definition: '14'
-              specificBuildWithTriggering: true
-              buildVersionToDownload: 'latest'
+              buildType: 'current'
               artifactName: 'drop'
               targetPath: '$(System.DefaultWorkingDirectory)'
+          
 
           - task: AzureWebApp@1
             inputs:
