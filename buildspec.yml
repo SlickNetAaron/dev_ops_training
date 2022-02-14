@@ -26,18 +26,21 @@ phases:
     commands:
       - echo Entered the pre_build phase...
       # - docker login -u User -p $LOGIN_PASSWORD
+      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 981878686511.dkr.ecr.us-east-2.amazonaws.com
     finally:
       - echo This always runs even if the login command fails 
   build:
     commands:
       - echo Entered the build phase...
       - echo Build started on `date`
-      # - mvn install
+      - docker build -t dev_ops_training .
     finally:
       - echo This always runs even if the install command fails
   post_build:
     commands:
       - echo Entered the post_build phase...
+      - docker tag dev_ops_training:latest 981878686511.dkr.ecr.us-east-2.amazonaws.com/dev_ops_training:latest
+      - docker push 981878686511.dkr.ecr.us-east-2.amazonaws.com/dev_ops_training:latest
       - echo Build completed on `date`
 
 # reports:
