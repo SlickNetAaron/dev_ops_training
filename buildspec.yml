@@ -20,6 +20,9 @@ phases:
       - python -m pip install --upgrade pip
       - pip install flake8 pytest
       - if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - flake8 . --count --show-source --statistics
+      - flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      - pytest test/*
     finally:
       - echo This always runs even if the update or install command fails 
   pre_build:
@@ -32,7 +35,7 @@ phases:
   build:
     commands:
       - echo Entered the build phase...
-      - echo Build started on `date`
+      - echo Build started on `date`ww
       - docker build -t dev_ops_training .
     finally:
       - echo This always runs even if the install command fails
