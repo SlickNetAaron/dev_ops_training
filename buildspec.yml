@@ -44,6 +44,7 @@ phases:
       - echo Entered the post_build phase...
       - docker tag dev_ops_training:latest 981878686511.dkr.ecr.us-east-2.amazonaws.com/dev_ops_training:latest
       - docker push 981878686511.dkr.ecr.us-east-2.amazonaws.com/dev_ops_training:latest
+      - printf '[{"name":"devops-training-2","imageUri":"981878686511.dkr.ecr.us-east-2.amazonaws.com/dev_ops_training:latest"}]' > imagedefinitions.json
       - echo Build completed on `date`
 
 # reports:
@@ -57,9 +58,9 @@ phases:
 #       - 'cucumber/target/cucumber-tests.xml'
 #     discard-paths: yes
 #     file-format: CUCUMBERJSON # default is JUNITXML
-# artifacts:
-#   files:
-#     - target/messageUtil-1.0.jar
+artifacts:
+  files:
+    - imagedefinitions.json
 #   discard-paths: yes
 #   secondary-artifacts:
 #     artifact1:
