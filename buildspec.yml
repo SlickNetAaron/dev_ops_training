@@ -2,6 +2,10 @@ version: 0.2
 
 env:
   shell: bash
+  variables:
+    dockerHubUser: slickneteaaron
+  parameter-store:
+    encryptedVar: dockerHub-alb
 
 # batch:
   # fast-fail: false | true
@@ -28,7 +32,7 @@ phases:
   pre_build:
     commands:
       - echo Entered the pre_build phase...
-      # - docker login -u User -p $LOGIN_PASSWORD
+      - docker login -u $dockerHubUser -p $encryptedVar
       - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 981878686511.dkr.ecr.us-east-2.amazonaws.com
     finally:
       - echo This always runs even if the login command fails 
