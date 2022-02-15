@@ -23,6 +23,7 @@ phases:
       # - yum update -y
       - python -m pip install --upgrade pip
       - pip install flake8 pytest
+      - echo $encryptedVar | docker login -u slicknetaaron --password-stdin
       - if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - flake8 . --exclude="search*.py" --count --show-source --statistics
       - flake8 . --exclude="search*.py" --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
@@ -32,7 +33,7 @@ phases:
   pre_build:
     commands:
       - echo Entered the pre_build phase...
-      - docker login -u $dockerHubUser -p $encryptedVar
+      #- docker login -u $dockerHubUser -p $encryptedVar
       - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 981878686511.dkr.ecr.us-east-2.amazonaws.com
     finally:
       - echo This always runs even if the login command fails 
